@@ -197,7 +197,7 @@ No fee is required for access.
 
 ### Who maintains the dataset?
 
-The student who created the capstone project maintains the dataset.
+I would maintain the dataset.
 
 ### Version control
 
