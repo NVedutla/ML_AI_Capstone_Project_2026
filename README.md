@@ -12,7 +12,7 @@ The approach combines:
 - Local search refinement
 - Hybrid exploration–exploitation strategies
 
-The project is structured across **10 optimisation rounds**, where each round improves query selection based on newly observed data.
+The project is structured across **13 optimisation rounds**, where each round improves query selection based on newly observed data.
 
 ---
 
