@@ -1,218 +1,77 @@
-# Datasheet for BBO Capstone Project Dataset
-
-## 1. Motivation
-
-### What task does this dataset help solve?
-
-This dataset supports a Black-Box Optimisation (BBO) task. The goal is to identify input values that maximise or minimise unknown objective functions without access to their mathematical form. The dataset records the history of optimisation queries and function evaluations collected throughout the capstone project.
-
-### Who created it and why?
-
-The dataset was created by me as part of the BBO Capstone Project. It was developed to support experimentation with optimisation strategies, including Bayesian Optimisation, Gaussian Process Regression, exploration-exploitation trade-offs and transformer-inspired methods.
-
-### Was it funded or supported by an organisation?
-
-The dataset was generated as part of my AI / ML coursework project with Imperial University and was not directly funded by an external organisation.
+# Dataset Datasheet – BBO Capstone Project
 
 ---
 
-## 2. Composition
+## MOTIVATION
 
-### What does the dataset contain?
+The dataset was created as part of a black-box optimisation (BBO) learning environment. The purpose was to evaluate different optimisation strategies and understand how machine learning methods can improve search efficiency in unknown function spaces.
+
+The dataset was generated within the capstone project environment. No external organisation or funding was involved.
+
+---
+
+## COMPOSITION
 
 The dataset contains:
+- Input vectors (candidate solutions)
+- Output values (function evaluations)
 
-* Input query vectors submitted to the BBO system.
-* Function evaluations returned by the system.
-* Historical optimisation data collected over ten rounds.
-* Eight separate unknown objective functions (F1–F8).
+Each function (F1–F8) has a different input dimension:
+- F1–F2: 2D
+- F3: 3D
+- F4–F5: 4D
+- F6: 5D
+- F7: 6D
+- F8: 8D
 
-### Dataset size
-
-* 10 optimisation rounds.
-* 8 objective functions.
-* Input dimensions ranging from 2 to 8 variables.
-* 80 total function evaluations (10 rounds × 8 functions).
-
-### Data format
-
-Inputs are stored as floating-point arrays:
-
-```text
-[0.758593, 0.726086]
-[0.522584, 0.641593, 0.359176]
-[0.081283, 0.059042, ..., 0.931456]
-```
-
-Outputs are floating-point numerical values:
-
-```text
-0.3043538085798325
--3.434147297215279
-1694.8396824139172
-```
-
-### Missing data
-
-No missing values were observed in the collected evaluations.
-
-### Relationships between instances
-
-Each query vector is linked directly to one corresponding function evaluation. Query histories across rounds are sequentially related because later queries are generated using information from earlier evaluations.
-
-### Privacy and sensitive information
-
-The dataset contains only synthetic numerical values. No personal, sensitive or identifiable information is included.
+There is no missing or confidential data.
 
 ---
 
-## 3. Collection Process
+## COLLECTION PROCESS
 
-### How was the data collected?
+Data was collected iteratively across multiple rounds of optimisation. Each round involved:
+1. Generating candidate input vectors
+2. Evaluating them on hidden functions
+3. Recording outputs
+4. Using results to guide future search
 
-Data was collected through iterative interaction with a black-box optimisation platform. For each round:
-
-1. Query points were submitted.
-2. Function outputs were returned.
-3. Previous results informed future query selection.
-
-### Sampling strategy
-
-The sampling strategy evolved over time:
-
-**Rounds 1–3**
-
-* Broad exploration.
-* Random and heuristic sampling.
-
-**Rounds 4–6**
-
-* Bayesian Optimisation.
-* Gaussian Process surrogate models.
-
-**Rounds 7–8**
-
-* Expected Improvement acquisition functions.
-* Local exploitation around promising regions.
-
-**Rounds 9–10**
-
-* Transformer-inspired candidate ranking.
-* Attention-based scoring concepts.
-* Increased emphasis on transparency and interpretability.
-
-### Time frame
-
-Data was collected sequentially across ten optimisation rounds during the capstone project.
-
-### Ethical considerations
-
-No human participants were involved. No consent, privacy or institutional review requirements applied because all data consisted of synthetic numerical evaluations.
+The dataset grew sequentially over time as new optimisation rounds were completed.
 
 ---
 
-## 4. Preprocessing, Cleaning and Labelling
+## PREPROCESSING / CLEANING
 
-### Preprocessing applied
+Several preprocessing steps were applied:
+- Padding or truncation of vectors to match required dimensions
+- Normalisation of inputs to the range [0, 1]
+- Log transformation applied to outputs in some models for stability
 
-Several preprocessing steps were used:
-
-* Input validation.
-* Normalisation of values to the range [0,1].
-* Log transformation of outputs when numerical ranges became extremely large.
-* Removal of invalid candidate points.
-* Formatting data into NumPy arrays for modelling.
-
-### Cleaning
-
-Data consistency checks were performed to ensure:
-
-* Correct dimensionality.
-* No empty arrays.
-* No invalid numerical values.
-
-### Labelling
-
-No manual labels were added. Function outputs acted as optimisation targets.
-
-### Preservation of raw data
-
-Original query inputs and outputs were preserved alongside processed versions.
+No sensitive data processing was required.
 
 ---
 
-## 5. Uses
+## USES
 
-### Intended uses
+The dataset can be used for:
+- Black-box optimisation research
+- Machine learning model benchmarking
+- Surrogate modelling experiments
+- Bayesian optimisation studies
 
-This dataset is intended for:
-
-* Black-box optimisation research.
-* Bayesian Optimisation experiments.
-* Surrogate model evaluation.
-* Exploration versus exploitation analysis.
-* Interpretability and transparency studies.
-
-### Inappropriate uses
-
-This dataset should not be used for:
-
-* Medical decision-making.
-* Financial decision-making.
-* Safety-critical optimisation.
-* Benchmarking real-world industrial systems.
-
-### Risks and biases
-
-Potential biases include:
-
-* Concentration of samples near high-performing regions.
-* Reduced exploration in later rounds.
-* Small sample size relative to the search space.
-* Assumptions that local improvements indicate globally promising regions.
+### Limitations for use:
+- Not suitable for real-world prediction tasks
+- Functions are synthetic and not interpretable
+- Results may not generalise outside this environment
 
 ---
 
-## 6. Distribution
+## DISTRIBUTION
 
-### Availability
-
-The dataset is distributed through the project's GitHub repository.
-
-### Access
-
-The dataset is available to instructors, reviewers and researchers interested in optimisation methods.
-
-### Licensing
-
-The dataset follows the same licence as the associated capstone repository.
-
-### Cost
-
-No fee is required for access.
+The dataset is included within the GitHub repository for educational use only. It is not licensed for commercial use or external redistribution.
 
 ---
 
-## 7. Maintenance
+## MAINTENANCE
 
-### Who maintains the dataset?
-
-I would maintain the dataset.
-
-### Version control
-
-Version history is managed through GitHub commits.
-
-### Updates
-
-Additional rounds may be added if optimisation continues beyond the current project stage.
-
-### Long-term storage
-
-The GitHub repository serves as the primary archive and record of dataset versions.
-
----
-
-## Additional Notes
-
-Transparency and reproducibility were important design goals throughout the project. Query generation strategies, optimisation assumptions and modelling decisions were documented to allow future researchers to understand and reproduce the optimisation process.
+This dataset is static and will not be updated after the completion of the capstone project. It is maintained only for reproducibility and academic review.
