@@ -1,170 +1,70 @@
-# BBO Capstone Project – Black-Box Optimisation
+# BBO Capstone Project – Hybrid Black-Box Optimisation
 
-## Overview
+## NON-TECHNICAL EXPLANATION OF MY PROJECT
 
-This project implements a **Black-Box Optimisation (BBO)** framework to optimise eight unknown mathematical functions (F1–F8). The objective is to find optimal input vectors using limited function evaluations without access to gradient or functional form information.
+This project explores how to solve complex optimisation problems where the underlying function is unknown. The goal is to find the best possible input values that maximise or improve an unknown output using only feedback from previous attempts.
 
-The approach combines:
-- Bayesian Optimisation (Gaussian Processes)
-- Expected Improvement (EI) acquisition function
-- Random exploration strategies
-- SVM-based filtering (early rounds)
-- Local search refinement
-- Hybrid exploration–exploitation strategies
+To achieve this, I built a hybrid machine learning system that learns from past evaluations and uses this information to suggest better future guesses. The system combines techniques such as Gaussian Processes, clustering, PCA, and reinforcement learning-style exploration.
 
-The project is structured across **13 optimisation rounds**, where each round improves query selection based on newly observed data.
+Over time, the model improves its understanding of the search space and becomes more efficient at finding high-performing solutions across multiple functions with different dimensions.
 
 ---
 
-## Problem Description
+## DATA
 
-We are given 8 unknown black-box functions:
+The dataset consists of multiple rounds of black-box optimisation results for functions F1 to F8. Each function has a different input dimension ranging from 2D to 8D.
 
-- Input space: continuous values in range [0, 1]
-- Dimensionality: 2D to 8D depending on function
-- Output: scalar real-valued function output
-- No access to gradients or internal function structure
+Each record includes:
+- Input vectors (candidate solutions)
+- Output values (function evaluations)
 
-### Objective:
-Maximise each function using efficient query selection.
+The data was generated during the capstone simulation process, where each new round builds on previous results. No external datasets were used.
 
 ---
 
-## Methodology
+## MODEL
 
-### 1. Exploration Phase (Rounds 1–3)
-- Random uniform sampling
-- Initial data collection
-- Broad search space coverage
+The final system is a hybrid optimisation pipeline combining:
 
-### 2. Bayesian Optimisation Phase (Rounds 4–6)
-- Gaussian Process Regression (GPR)
-- Matern kernel
-- Expected Improvement (EI) acquisition function
+- Gaussian Process Regression (surrogate modelling)
+- Expected Improvement (Bayesian optimisation acquisition function)
+- PCA (directional structure discovery)
+- Clustering (identifying high-performing regions)
+- Local search (exploitation around best solutions)
+- Random exploration (to avoid local optima)
 
-### 3. Hybrid Optimisation Phase (Rounds 7–8)
-- SVM-based classification of promising regions
-- Batch Bayesian Optimisation
-- Constant liar strategy
-- Local refinement around best points
-
-### 4. Advanced & Interpretability Phase (Rounds 9–10)
-- Hybrid surrogate ranking
-- Transformer-inspired scoring (attention-style selection)
-- Improved local exploitation
-- Increased focus on transparency and interpretability
+This combination allows the system to balance exploration and exploitation while adapting to different function landscapes.
 
 ---
 
-## Key Features
+## HYPERPARAMETER OPTIMSATION
 
-- Gaussian Process surrogate modelling
-- Uncertainty-aware decision making (EI)
-- Log transformation of outputs for numerical stability
-- Hybrid exploration + exploitation strategy
-- Local search refinement
-- Transparent decision tracking
+Hyperparameters were tuned manually and iteratively across rounds:
 
----
+- Gaussian Process kernel (Matern kernel with different length scales)
+- Exploration constant (xi in Expected Improvement)
+- Step size for local search
+- Noise levels for exploration
+- Number of candidate samples per iteration
+- Clustering thresholds (top percentile selection)
 
-## Performance Summary
-
-Performance is evaluated using:
-- Best observed function value
-- Improvement across rounds
-- Stability of optimisation
-- Efficiency of sampling strategy
-
-### Observations:
-- Strong convergence observed in higher-dimensional functions (F5–F8)
-- Slower convergence in noisy or low-dimensional functions (F1–F3)
-- Hybrid strategies improved performance over pure random sampling
-- Diminishing returns observed in later rounds
+These were adjusted based on performance improvements observed across rounds rather than a fixed grid search.
 
 ---
 
-## Assumptions
+## RESULTS
 
-- Functions are smooth enough for Gaussian Process modelling
-- Past evaluations are informative for future predictions
-- Global optimum lies within bounded domain [0,1]
-- Observations are noise-free or low-noise
+The system showed consistent improvement across all benchmark functions (F1–F8). Early approaches relied heavily on random sampling, but later versions became more structured and data-driven.
 
----
+Key improvements included:
+- Faster convergence to high-performing regions
+- More stable results across different function dimensions
+- Better balance between exploration and exploitation
 
-## Limitations
-
-- Gaussian Processes scale poorly with large datasets
-- Risk of convergence to local optima
-- Sampling bias toward high-performing regions
-- Limited exploration in later rounds
-- Sensitive to kernel and hyperparameter selection
+The final hybrid approach performed significantly better than early baseline strategies.
 
 ---
 
-## Ethical Considerations
+## CONTACT DETAILS
 
-Although synthetic, this project demonstrates key principles of responsible AI:
-
-- Transparency in optimisation decisions
-- Reproducibility of results
-- Clear documentation of assumptions and limitations
-- Awareness of bias introduced by sampling strategies
-
----
-
-## Reproducibility
-
-To reproduce results:
-
-1. Run rounds sequentially (Round 1 → Round 10)
-2. Use fixed random seeds
-3. Maintain identical GP kernel settings
-4. Store all input-output query pairs
-
----
-
-## Files in This Repository
-
-### 📊 Dataset Documentation
-- `datasheet_bbo_capstone.md`  
-  → Full dataset description including collection, structure, and usage
-
-### 🤖 Model Documentation
-- `model_card_bbo_optimisation.md`  
-  → Description of optimisation strategy, performance, and limitations
-
-### 💻 Code
-- `round_01.py` → `round_10.py` (or main optimisation script)
-- Supporting utility scripts (if applicable)
-
----
-
-## Future Improvements
-
-- Deep kernel Gaussian Processes
-- Transformer-based surrogate models
-- Reinforcement learning for adaptive exploration
-- Multi-objective optimisation
-- Improved uncertainty estimation techniques
-
----
-
-## Author
-
-BBO Capstone Project Submission  
-Module: Advanced Machine Learning / Optimisation  
-Focus: Bayesian Optimisation, Interpretability, and Scaling Behaviour
-
----
-
-## Documentation Links
-
-- 📄 Datasheet: `datasheet_bbo_capstone.md`
-- 📘 Model Card: `model_card_bbo_optimisation.md`
-
----
-
-## License
-
-Educational use only. Not intended for production deployment.
+GitHub: https://github.com/NVedutla/ML_AI_Capstone_Project_2026
