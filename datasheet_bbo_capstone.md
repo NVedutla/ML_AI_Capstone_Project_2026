@@ -1,140 +1,197 @@
 # BBO Capstone Dataset Sheet
 
+---
+
 ## 1. Dataset Overview
 
-This dataset was generated as part of a Black-Box Optimisation (BBO) capstone project. The dataset consists of multiple rounds of input-output observations for eight unknown mathematical functions (F1–F8).
+This dataset was generated as part of a Black-Box Optimisation (BBO) capstone project within a machine learning and AI course.
 
-Each function represents a different black-box optimisation problem with varying dimensionality and complexity.
+It contains sequential input-output observations for eight unknown mathematical functions (F1–F8). Each function represents a separate optimisation problem with different input dimensionalities and varying complexity.
 
-The dataset is sequential and iterative, meaning each round builds upon previous evaluations.
+The dataset is not static. Instead, it is **iterative and sequential**, meaning each new round of data depends on previously evaluated candidate solutions and the optimisation strategies used at that stage.
 
 ---
 
 ## 2. Motivation
 
-The dataset was created for educational and research purposes within a machine learning optimisation course.
+The dataset was created for educational purposes to simulate real-world black-box optimisation problems where:
 
-The main objectives were:
-- To simulate real-world black-box optimisation problems
-- To evaluate different optimisation strategies over time
-- To support iterative improvement of surrogate-based models
-- To study exploration vs exploitation trade-offs
+- The underlying function is unknown
+- Only input-output feedback is available
+- Evaluation is expensive and limited
+- Learning must occur iteratively over time
 
-The dataset was provided as part of the ML/AI capstone learning environment.
+The dataset supports the study of:
+
+- Surrogate modelling approaches
+- Bayesian optimisation techniques
+- Exploration vs exploitation trade-offs
+- Sequential decision-making under uncertainty
+- Hybrid machine learning optimisation systems
+
+It was provided as part of the ML/AI capstone learning environment.
 
 ---
 
-## 3. Composition
+## 3. Dataset Composition
 
 The dataset consists of:
 
-- 8 functions (F1–F8)
-- 12 optimisation rounds
-- Each function has different input dimensions:
+- **8 black-box functions (F1–F8)**
+- **13 optimisation rounds (weekly iterations)**
+- Continuous input spaces in the range **[0, 1]**
 
-| Function | Dimensions |
-|----------|------------|
-| F1       | 2D         |
-| F2       | 2D         |
-| F3       | 3D         |
-| F4       | 4D         |
-| F5       | 4D         |
-| F6       | 5D         |
-| F7       | 6D         |
-| F8       | 8D         |
+### Function Dimensionality
 
-### Data Structure
+| Function | Input Dimension |
+|----------|----------------|
+| F1       | 2D             |
+| F2       | 2D             |
+| F3       | 3D             |
+| F4       | 4D             |
+| F5       | 4D             |
+| F6       | 5D             |
+| F7       | 6D             |
+| F8       | 8D             |
+
+### Data Format
 
 Each record contains:
-- Input vector (continuous values in range [0, 1])
-- Output scalar value (black-box function evaluation)
+- Input vector: NumPy array of floats
+- Output value: scalar float representing function evaluation score
 
 ---
 
 ## 4. Data Collection Process
 
-The dataset was generated through an iterative optimisation environment:
+The dataset was generated through an iterative optimisation loop:
 
-1. At each round, candidate solutions were submitted
-2. The environment evaluated each candidate using hidden functions
-3. Outputs were returned as scalar values
-4. Results were stored and reused in future optimisation steps
+1. Candidate input points were generated using different optimisation strategies
+2. Each candidate was evaluated using hidden black-box functions
+3. Output values were returned as scalar performance scores
+4. Results were stored and reused in future rounds to improve sampling decisions
 
-This created a sequential decision-making dataset rather than a static dataset.
+This creates a **closed-loop optimisation dataset**, where the data distribution evolves over time based on the algorithm’s behaviour.
 
 ---
 
-## 5. Preprocessing
+## 5. Preprocessing and Feature Engineering
 
 Several preprocessing steps were applied during modelling:
 
 ### 5.1 Dimensional Alignment
-Because each function had different input sizes:
-- Inputs were padded with zeros if too short
-- Inputs were truncated if too long
+
+Because each function has different input sizes:
+
+- Inputs shorter than the required dimension were **zero-padded**
+- Inputs longer than required were **truncated**
+
+This ensured compatibility across optimisation modules.
+
+---
 
 ### 5.2 Normalisation
-All inputs were constrained to:
-- Range: [0, 1]
 
-### 5.3 Log Transformation (used in some modules)
-To stabilise extreme output values:
-- Log(|y| + ε) was used for Gaussian Process training
+All input values were constrained to:
 
-### 5.4 Outlier Handling
-No explicit removal of outliers was performed, but robust models (GP, clustering, PCA) were used to reduce their impact.
+- Range: **[0, 1]**
+
+This was enforced by the environment and maintained throughout modelling.
+
+---
+
+### 5.3 Output Transformation
+
+For stability in Gaussian Process training:
+
+- A log transformation was applied in some modules:
+  \[
+  y' = \log(|y| + \epsilon)
+  \]
+
+This helped reduce the impact of extreme output values.
+
+---
+
+### 5.4 Noise Handling
+
+No explicit outlier removal was applied. Instead, robustness was achieved through:
+
+- Gaussian Process regression (probabilistic modelling)
+- Clustering-based filtering of high-value regions
+- PCA-based dimensional structure analysis
 
 ---
 
 ## 6. Uses of the Dataset
 
-This dataset can be used for:
+This dataset supports experimentation in:
 
 - Black-box optimisation benchmarking
-- Surrogate modelling experiments
-- Bayesian optimisation research
+- Bayesian optimisation
+- Surrogate modelling (GP, SVM, etc.)
 - Reinforcement learning in continuous spaces
-- Exploration vs exploitation studies
+- Exploration vs exploitation research
+- High-dimensional optimisation analysis
 
 ---
 
 ## 7. Limitations
 
-The dataset has several limitations:
+### 7.1 Synthetic Environment
 
-### 7.1 Synthetic Nature
-The functions are artificially generated and may not reflect real-world noise patterns.
+The dataset is generated in a controlled simulation environment and does not reflect real-world noise distributions perfectly.
 
-### 7.2 Limited Observations
-Only 12 rounds of observations are available, limiting long-term convergence analysis.
+---
 
-### 7.3 Dimensional Constraints
-Each function has fixed dimensionality, limiting transfer learning across functions.
+### 7.2 Limited Evaluation Rounds
 
-### 7.4 Sequential Bias
-Later samples depend on earlier optimisation strategies, introducing sampling bias.
+Only 13 optimisation rounds are available, which limits long-term convergence analysis.
+
+---
+
+### 7.3 Fixed Dimensionality
+
+Each function has fixed input dimensionality, limiting transfer learning between functions.
+
+---
+
+### 7.4 Sequential Dependency Bias
+
+Each round depends on previous optimisation strategies, meaning the dataset is **policy-dependent** and not independently sampled.
 
 ---
 
 ## 8. Ethical Considerations
 
-There are no direct ethical risks associated with this dataset as it does not contain:
-- Personal data
-- Sensitive information
+This dataset contains no personal or sensitive data.
+
+It does not involve:
+
+- Personal information
+- Private datasets
 - Real-world individuals
 
-However, the optimisation techniques developed using this dataset may be applied in real-world domains such as pricing or resource allocation, where ethical considerations would become important.
+However, techniques developed using this dataset (e.g. optimisation, pricing, resource allocation) may be applicable in real-world domains where ethical considerations such as fairness, bias, and transparency become important.
 
 ---
 
 ## 9. Maintenance
 
-This dataset is maintained as part of an academic capstone project.
+This dataset is maintained solely for academic purposes as part of the BBO capstone project.
 
-It is not updated after completion of the course.
+It is not updated after course completion and is intended as a static educational resource.
 
 ---
 
 ## 10. Summary
 
-The BBO dataset provides a structured environment for studying iterative optimisation strategies across multiple function types and dimensions. It is particularly useful for evaluating surrogate models, Bayesian optimisation techniques, and hybrid machine learning approaches in controlled settings.
+This dataset provides a structured environment for studying iterative black-box optimisation across multiple functions and dimensionalities.
+
+It is particularly useful for evaluating:
+
+- Gaussian Process surrogate models
+- Bayesian optimisation strategies
+- Hybrid machine learning optimisation pipelines
+
+The sequential nature of the dataset allows analysis of how optimisation strategies evolve over time and improve performance under uncertainty.
