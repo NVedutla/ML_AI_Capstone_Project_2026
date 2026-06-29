@@ -1,246 +1,155 @@
-# BBO Capstone Project – Hybrid Black-Box Optimisation (Dec 2025 to June 2026) - Imperial University
-
-## Project Overview
-
-This project is a Black-Box Optimisation (BBO) capstone developed over a 24-module learning journey. The goal of the project is to optimise a set of unknown mathematical functions (F1–F8) using iterative machine learning and optimisation strategies.
-
-Rather than relying on a single algorithm, the system evolves into a **hybrid optimisation framework** that combines multiple techniques including Gaussian Processes, Bayesian Optimisation, clustering, PCA, reinforcement learning-inspired exploration, and surrogate modelling.
-
-The key idea behind the project is:
-
-> **Optimisation performance improves when multiple learning strategies are combined to balance exploration, exploitation, and uncertainty modelling.**
+# BBO Capstone Project – Hybrid Black-Box Optimisation (Dec 2025 – June 2026)
+Imperial University
 
 ---
 
-## Repository Structure
-
-The repository is organised to reflect the progression of the capstone:
-
-```
-ML_AI_Capstone_Project_2026/
-│
-├── Code/
-│   ├── Module_13/ → Gaussian Process Surrogates
-│   ├── Module_14/ → Hyperparameter Optimisation
-│   ├── Module_15/ → Expected Improvement (Bayesian Optimisation)
-│   ├── Module_16/ → Local Search Enhancements
-│   ├── Module_17/ → Candidate Generation Strategies
-│   ├── Module_18/ → Hybrid Optimisation Systems
-│   ├── Module_19/ → Feature Weighting (Attention-inspired)
-│   ├── Module_20/ → Bayesian Optimisation Refinement
-│   ├── Module_21/ → Transparency & Interpretability Methods
-│   ├── Module_22/ → Clustering-Based Optimisation
-│   ├── Module_23/ → PCA-Guided Search
-│   ├── Module_24/ → Reinforcement Learning-Inspired Search
-│   └── Final_Model/
-│
-├── Data/
-│   ├── Inputs/
-│   ├── Outputs/
-│   └── Full_History/
-│
-├── Documentation/
-│   ├── model_card_optimisation.md
-│   ├── data_sheet_bbo_capstone.md
-│   └── reflections/
-│
-├── Presentation/
-└── Images/
-```
-## How to run
-pip install -r requirements.txt
-python main.py
-
-
-## Objective
-
-The objective of this project is to approximate and optimise hidden black-box functions using only input-output observations.
-
-The system must:
-- Explore unknown function landscapes efficiently
-- Balance exploration vs exploitation
-- Adapt strategies over time
-- Improve performance across multiple function types (F1–F8)
-- Generalise across different input dimensions (2D–8D)
+## PROJECT TITLE
+Hybrid Black-Box Optimisation System using Gaussian Processes, Bayesian Optimisation, PCA and Reinforcement Learning-Inspired Search
 
 ---
 
-## Core Optimisation Approach
+## NON-TECHNICAL EXPLANATION (≈100 words)
 
-The final system is built around a **hybrid optimisation pipeline**:
-
-1. Surrogate modelling using Gaussian Processes
-2. Bayesian optimisation using Expected Improvement
-3. Local search around high-performing regions
-4. Feature weighting to prioritise important dimensions
-5. Clustering to identify promising regions
-6. PCA to learn directional structure of the search space
-7. Reinforcement learning-inspired exploration
-8. Adaptive candidate generation
-## Evolution of the Model (Modules 13 → 24)
-
-The system was not built in a single step. Instead, it evolved gradually as each module introduced new ideas that were directly tested in the optimisation pipeline.
-
-### Module 13–14: Gaussian Processes & Hyperparameter Optimisation
-The initial improvement came from introducing Gaussian Process (GP) regression as a surrogate model. This allowed the system to approximate expensive black-box functions based on previous observations.
-
-Hyperparameter tuning (especially kernel length scale) improved model stability and prediction quality.
+This project explores how to optimise unknown mathematical functions using only input and output examples, without knowing the underlying formula. The system learns from past attempts and gradually improves its guesses over time. It uses machine learning methods such as Gaussian Processes to predict good solutions, Bayesian Optimisation to guide search decisions, and clustering and PCA to identify patterns in successful regions. Over time, the model becomes more efficient at finding high-performing inputs across multiple complex functions. The goal is to simulate real-world decision-making problems where the best solution must be discovered through experimentation and learning rather than direct calculation.
 
 ---
 
-### Module 15–16: Bayesian Optimisation & Expected Improvement
-Expected Improvement (EI) was introduced to guide candidate selection.
+## DATA
 
-This marked a key shift:
-- From random exploration
-- To probability-guided exploitation of promising regions
+The dataset consists of black-box function evaluations (F1–F8) provided over 13 weekly modules.
 
-Local search was also added to refine solutions around known good points.
+Each function contains:
+- Inputs: vectors of varying dimensionality (2D to 8D depending on function)
+- Outputs: real-valued scores representing function performance
 
----
+Data structure:
+Data/
+├── Week_1/
+│ ├── inputs.txt
+│ └── outputs.txt
+├── Week_2/
+...
+├── Week_13/
 
-### Module 17–18: Hybrid Candidate Generation
-At this stage, the system began combining multiple strategies:
-- Random exploration
-- Surrogate predictions
-- Local exploitation
 
-This hybrid structure improved robustness across all function types (F1–F8), especially higher-dimensional cases.
+Each `inputs.txt` contains a list of numpy arrays representing sampled points.
+Each `outputs.txt` contains corresponding evaluation scores.
 
----
-
-### Module 19–20: Feature Weighting & Refinement
-An attention-inspired weighting mechanism was introduced to prioritise more influential input dimensions.
-
-This improved performance stability by:
-- Reducing noise from less important features
-- Increasing focus on high-impact dimensions
-
-Bayesian optimisation was also refined for better candidate selection.
+The data is generated as part of the BBO capstone environment and is not externally sourced.
 
 ---
 
-### Module 21: Transparency & Interpretability
-This module focused on making the optimisation process explainable.
+## MODEL
 
-Key additions:
-- Gaussian Process interpretability analysis
-- Kernel sensitivity tuning
-- Logging and structured evaluation of candidate decisions
+The final model is a **hybrid optimisation system** combining multiple techniques:
 
-This improved understanding of why certain points were selected.
+- Gaussian Process Regression (surrogate modelling)
+- Bayesian Optimisation (Expected Improvement acquisition function)
+- Support Vector Machines (region filtering in early stages)
+- PCA-based directional search
+- Clustering-based region identification
+- Reinforcement Learning-inspired exploration (epsilon-greedy sampling)
+- Adaptive candidate generation across multiple strategies
 
----
-
-### Module 22: Clustering-Based Optimisation
-Clustering was introduced to group high-performing samples.
-
-Key idea:
-> Good solutions often exist in regions, not isolated points.
-
-The system:
-- Identified top-performing quartile
-- Computed cluster centroids
-- Generated new candidates around these regions
+The model evolves over time by combining exploration (random search) and exploitation (guided search from learned models).
 
 ---
 
-### Module 23: PCA-Guided Search
-Principal Component Analysis (PCA) was used to identify dominant directions in the search space.
+## HYPERPARAMETER OPTIMISATION
 
-This allowed:
-- Directional optimisation instead of purely random sampling
-- Faster convergence in structured landscapes
+Key hyperparameters used:
 
----
+- Gaussian Process kernel: Matern kernel (nu=2.5)
+- Alpha (noise level): 1e-6
+- Expected Improvement exploration factor (xi): 0.01
+- SVM RBF kernel with probability estimates
+- Candidate pool sizes: 1000–5000 samples per iteration
+- Exploration threshold (SVM filtering): probability > 0.6
+- RL epsilon (exploration rate): 0.1
+- PCA components: dynamic based on function dimension
 
-### Module 24: Reinforcement Learning-Inspired Exploration
-The final module introduced adaptive exploration using:
-- Weighted reward sampling
-- Directional learning
-- Epsilon-based exploration noise
-
-This allowed the system to dynamically balance:
-- Exploitation of known good regions
-- Exploration of unknown areas
+These were tuned iteratively across modules based on performance trends across F1–F8.
 
 ---
 
-## Results Summary
+## CODE STRUCTURE
 
-Across the full capstone project, performance improved steadily as more advanced optimisation strategies were introduced.
+The repository is organised by module progression:
+Code/
+├── week_1.py
+├── week_2.py
+├── ...
+├── week_13.py
+├── Module_13/
+├── Module_14/
+├── ...
+├── Module_24/
 
-Key outcomes:
-- Better stability across all 8 benchmark functions (F1–F8)
-- Improved convergence in higher-dimensional functions (F6–F8)
-- More efficient exploration using surrogate-guided search
+
+Each file represents incremental improvements to the optimisation strategy.
+
+---
+
+## RESULTS
+
+The model shows steady improvement across all benchmark functions (F1–F8) over time.
+
+### Key Observations:
+- Early modules relied on simple local search and Gaussian noise exploration.
+- Mid-stage modules (15–18) introduced Bayesian Optimisation and surrogate modelling, improving convergence speed.
+- Later modules (19–24) added PCA, clustering, and reinforcement learning-inspired exploration, improving robustness.
+
+### Final Performance Summary:
+- Strongest stability achieved in higher-dimensional functions (F6–F8)
+- Improved convergence consistency across noisy landscapes
 - Reduced randomness in candidate selection
+- Better balance between exploration and exploitation
 
-The final model successfully combined multiple optimisation paradigms into a single unified framework.
-
----
-
-## Technologies Used
-
-- Python 3
-- NumPy
-- SciPy
-- Scikit-learn
-- Gaussian Process Regression
-- PCA (Principal Component Analysis)
+Overall, the hybrid system significantly outperformed early baseline approaches.
 
 ---
 
-## How to Run the Project
+## MODEL CARD
 
-1. Clone the repository:
-```bash
-git clone https://github.com/NVedutla/ML_AI_Capstone_Project_2026.git
-```
-
-2. Navigate to code directory:
-```bash
-cd ML_AI_Capstone_Project_2026/Code
-```
-
-3. Run final model:
-```bash
-python final_model.py
-```
+See `model_card_optimisation.md` for detailed model architecture, performance metrics, limitations, and trade-offs.
 
 ---
 
-## Key Learnings
+## DATA SHEET
 
-- Optimisation improves through **layered strategy design**, not single algorithms
-- Surrogate models reduce unnecessary evaluations
-- Exploration vs exploitation balance is critical
-- Structural patterns (PCA/clustering) improve convergence
-- Interpretability improves debugging and model refinement
+See `data_sheet_bbo_capstone.md` for dataset motivation, structure, collection process, and limitations.
 
 ---
 
-## Future Improvements
+## KEY LEARNINGS
 
-If more time were available, the system could be improved by:
-- Ensemble surrogate models (GP + NN + SVR)
+- Combining multiple optimisation strategies is more effective than relying on one algorithm
+- Surrogate models significantly reduce expensive evaluations
+- Exploration vs exploitation balance is critical for success
+- Dimensionality reduction (PCA) improves search efficiency
+- Iterative experimentation leads to better system design than static modelling
+
+---
+
+## FUTURE IMPROVEMENTS
+
+- Ensemble surrogate models (GP + Neural Networks + SVR)
 - Adaptive kernel learning for Gaussian Processes
 - Meta-learning for automatic strategy selection
-- More advanced reinforcement learning policies
+- More advanced reinforcement learning-based exploration policies
 
 ---
 
-## Author
+## AUTHOR
 
-**BBO Capstone Project – ML/AI 2026**
+BBO Capstone Project – ML/AI 2026  
+Imperial University
 
-GitHub Repository:
+GitHub Repository:  
 https://github.com/NVedutla/ML_AI_Capstone_Project_2026
 
 ---
 
-## License
+## LICENSE
 
 For academic and educational use only.
-
-Each module added in the course contributed a new component to this pipeline, progressively improving robustness and performance.
