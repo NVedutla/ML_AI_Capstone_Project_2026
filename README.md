@@ -47,8 +47,10 @@ ML_AI_Capstone_Project_2026/
 ├── Presentation/
 └── Images/
 ```
+## How to run
+pip install -r requirements.txt
+python main.py
 
----
 
 ## Objective
 
