@@ -1,4 +1,4 @@
-# BBO Capstone Project – Hybrid Black-Box Optimisation System (Dec 2025 to June 2026) - Imperial University
+# BBO Capstone Project – Hybrid Black-Box Optimisation (Dec 2025 to June 2026) - Imperial University
 
 ## Project Overview
 
