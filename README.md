@@ -1,80 +1,74 @@
-# BBO Capstone Project – Hybrid Black-Box Optimisation (Dec 2025 – June 2026)
+# BBO Capstone Project – Hybrid Black-Box Optimisation (2026)
 Imperial University
 
----
 
 ## PROJECT TITLE
-Hybrid Black-Box Optimisation System using Gaussian Processes, Bayesian Optimisation, PCA and Reinforcement Learning-Inspired Search
 
----
+Hybrid Black-Box Optimisation using Gaussian Processes, Bayesian Optimisation, and Learning-Based Search Strategies
 
 ## NON-TECHNICAL EXPLANATION (≈100 words)
 
-This project explores how to optimise unknown mathematical functions using only input and output examples, without knowing the underlying formula. The system learns from past attempts and gradually improves its guesses over time. It uses machine learning methods such as Gaussian Processes to predict good solutions, Bayesian Optimisation to guide search decisions, and clustering and PCA to identify patterns in successful regions. Over time, the model becomes more efficient at finding high-performing inputs across multiple complex functions. The goal is to simulate real-world decision-making problems where the best solution must be discovered through experimentation and learning rather than direct calculation.
+This project is about solving optimisation problems where the underlying function is unknown. In simple terms, we are trying to find the best possible input that produces the highest output without knowing how the function works internally.
 
----
+To do this, the system learns from past attempts and gradually improves its guesses. It uses machine learning techniques such as Gaussian Processes to predict good regions, Bayesian Optimisation to guide decisions, and clustering and PCA to identify patterns in successful areas.
+
+Over time, the system becomes better at exploring and focusing its search, improving performance across multiple complex functions.
 
 ## DATA
 
-The dataset consists of black-box function evaluations (F1–F8) provided over 13 weekly modules.
+The dataset is made up of black-box optimisation samples collected over 13 iterative rounds.
 
-Each function contains:
-- Inputs: vectors of varying dimensionality (2D to 8D depending on function)
-- Outputs: real-valued scores representing function performance
+Each function (F1–F8) contains:
+- Input vectors (continuous values between 0 and 1)
+- Output values (performance score from hidden functions)
 
-Data structure:
+### Structure:
 Data/
 ├── Week_1/
-│ ├── inputs.txt
-│ └── outputs.txt
+│   ├── inputs.txt
+│   ├── outputs.txt
 ├── Week_2/
 ...
 ├── Week_13/
 
 
-Each `inputs.txt` contains a list of numpy arrays representing sampled points.
-Each `outputs.txt` contains corresponding evaluation scores.
-
-The data is generated as part of the BBO capstone environment and is not externally sourced.
-
----
+Each input is a NumPy array of different dimensionality depending on the function, and each output is a single numeric score.
 
 ## MODEL
 
-The final model is a **hybrid optimisation system** combining multiple techniques:
+The final system is a hybrid optimisation model built by combining multiple techniques learned throughout the module.
 
-- Gaussian Process Regression (surrogate modelling)
-- Bayesian Optimisation (Expected Improvement acquisition function)
-- Support Vector Machines (region filtering in early stages)
+It includes:
+
+- Gaussian Process Regression (to estimate unknown functions)
+- Bayesian Optimisation using Expected Improvement
+- Support Vector Machines (to filter promising regions early on)
 - PCA-based directional search
-- Clustering-based region identification
-- Reinforcement Learning-inspired exploration (epsilon-greedy sampling)
-- Adaptive candidate generation across multiple strategies
+- Clustering of high-performing regions
+- Reinforcement learning-style exploration (epsilon-greedy strategy)
+- Adaptive candidate generation
 
-The model evolves over time by combining exploration (random search) and exploitation (guided search from learned models).
-
----
+The key idea is simple:  
+instead of relying on one method, we combine several strategies so the system can both explore new areas and refine good ones.
 
 ## HYPERPARAMETER OPTIMISATION
 
-Key hyperparameters used:
+Key settings used across the project:
 
-- Gaussian Process kernel: Matern kernel (nu=2.5)
-- Alpha (noise level): 1e-6
+- Gaussian Process kernel: Matern (nu = 2.5)
+- Noise level (alpha): 1e-6
 - Expected Improvement exploration factor (xi): 0.01
-- SVM RBF kernel with probability estimates
-- Candidate pool sizes: 1000–5000 samples per iteration
-- Exploration threshold (SVM filtering): probability > 0.6
-- RL epsilon (exploration rate): 0.1
-- PCA components: dynamic based on function dimension
+- SVM kernel: RBF with probability estimates
+- Candidate pool size: 1000–5000 points per iteration
+- SVM filtering threshold: 0.6 probability
+- RL exploration rate (epsilon): 0.1
+- PCA components: adjusted based on function dimension
 
-These were tuned iteratively across modules based on performance trends across F1–F8.
-
----
+These values were refined gradually during experimentation across modules.
 
 ## CODE STRUCTURE
 
-The repository is organised by module progression:
+The repository follows the learning progression of the course:
 Code/
 ├── week_1.py
 ├── week_2.py
@@ -84,72 +78,69 @@ Code/
 ├── Module_14/
 ├── ...
 ├── Module_24/
+└── 
 
 
-Each file represents incremental improvements to the optimisation strategy.
+Each file represents a step forward in improving the optimisation strategy.
 
----
+## RESULTS SUMMARY
 
-## RESULTS
+Across all functions (F1–F8), performance improved steadily as more advanced methods were introduced.
 
-The model shows steady improvement across all benchmark functions (F1–F8) over time.
+### What worked best:
+- Bayesian Optimisation improved efficiency early on
+- SVM filtering helped focus search regions
+- PCA improved performance in higher dimensions
+- Clustering improved stability in later stages
+- RL-style exploration prevented getting stuck in local optima
 
-### Key Observations:
-- Early modules relied on simple local search and Gaussian noise exploration.
-- Mid-stage modules (15–18) introduced Bayesian Optimisation and surrogate modelling, improving convergence speed.
-- Later modules (19–24) added PCA, clustering, and reinforcement learning-inspired exploration, improving robustness.
-
-### Final Performance Summary:
-- Strongest stability achieved in higher-dimensional functions (F6–F8)
-- Improved convergence consistency across noisy landscapes
-- Reduced randomness in candidate selection
-- Better balance between exploration and exploitation
-
-Overall, the hybrid system significantly outperformed early baseline approaches.
-
----
-
-## MODEL CARD
-
-See `model_card_optimisation.md` for detailed model architecture, performance metrics, limitations, and trade-offs.
-
----
-
-## DATA SHEET
-
-See `data_sheet_bbo_capstone.md` for dataset motivation, structure, collection process, and limitations.
-
----
+### Overall outcome:
+The final system performs consistently across all functions, especially in higher-dimensional cases where simple methods struggled.
 
 ## KEY LEARNINGS
-
-- Combining multiple optimisation strategies is more effective than relying on one algorithm
-- Surrogate models significantly reduce expensive evaluations
-- Exploration vs exploitation balance is critical for success
-- Dimensionality reduction (PCA) improves search efficiency
-- Iterative experimentation leads to better system design than static modelling
-
----
+No single algorithm is enough for black-box optimisation
+Combining multiple methods gives better stability and performance
+Surrogate models reduce unnecessary expensive evaluations
+Exploration vs exploitation balance is critical
+Dimensionality-aware methods (like PCA) improve efficiency
 
 ## FUTURE IMPROVEMENTS
 
-- Ensemble surrogate models (GP + Neural Networks + SVR)
-- Adaptive kernel learning for Gaussian Processes
-- Meta-learning for automatic strategy selection
-- More advanced reinforcement learning-based exploration policies
+If the project continued, improvements could include:
 
----
+Combining multiple surrogate models (GP + Neural Networks)
+Adaptive kernel selection for Gaussian Processes
+More advanced reinforcement learning policies
+
+## DATA SHEET & MODEL CARD
+
+Please refer to:
+
+bbo_capstone_dataset_sheet.md
+bbo_model_card_optimisation.md
+
+for full technical and ethical documentation.
 
 ## AUTHOR
 
-BBO Capstone Project – ML/AI 2026  
+BBO Capstone Project – Machine Learning & AI (2026)
 Imperial University
 
-GitHub Repository:  
+GitHub
 https://github.com/NVedutla/ML_AI_Capstone_Project_2026
-
----
 
 ## LICENSE
 
-For academic and educational use only.
+For academic use only.
+Automated strategy selection depending on function type
+
+## REPRODUCIBILITY
+
+To run the project:
+
+```bash
+pip install -r requirements.txt
+python Code/final_model.py
+FINAL QUERY: x1-x2-x3-...
+Best value: <float>
+
