@@ -1,77 +1,140 @@
-# Dataset Datasheet – BBO Capstone Project
+# BBO Capstone Dataset Sheet
+
+## 1. Dataset Overview
+
+This dataset was generated as part of a Black-Box Optimisation (BBO) capstone project. The dataset consists of multiple rounds of input-output observations for eight unknown mathematical functions (F1–F8).
+
+Each function represents a different black-box optimisation problem with varying dimensionality and complexity.
+
+The dataset is sequential and iterative, meaning each round builds upon previous evaluations.
 
 ---
 
-## MOTIVATION
+## 2. Motivation
 
-The dataset was created as part of a black-box optimisation (BBO) learning environment. The purpose was to evaluate different optimisation strategies and understand how machine learning methods can improve search efficiency in unknown function spaces.
+The dataset was created for educational and research purposes within a machine learning optimisation course.
 
-The dataset was generated within the capstone project environment. No external organisation or funding was involved.
+The main objectives were:
+- To simulate real-world black-box optimisation problems
+- To evaluate different optimisation strategies over time
+- To support iterative improvement of surrogate-based models
+- To study exploration vs exploitation trade-offs
 
----
-
-## COMPOSITION
-
-The dataset contains:
-- Input vectors (candidate solutions)
-- Output values (function evaluations)
-
-Each function (F1–F8) has a different input dimension:
-- F1–F2: 2D
-- F3: 3D
-- F4–F5: 4D
-- F6: 5D
-- F7: 6D
-- F8: 8D
-
-There is no missing or confidential data.
+The dataset was provided as part of the ML/AI capstone learning environment.
 
 ---
 
-## COLLECTION PROCESS
+## 3. Composition
 
-Data was collected iteratively across multiple rounds of optimisation. Each round involved:
-1. Generating candidate input vectors
-2. Evaluating them on hidden functions
-3. Recording outputs
-4. Using results to guide future search
+The dataset consists of:
 
-The dataset grew sequentially over time as new optimisation rounds were completed.
+- 8 functions (F1–F8)
+- 12 optimisation rounds
+- Each function has different input dimensions:
+
+| Function | Dimensions |
+|----------|------------|
+| F1       | 2D         |
+| F2       | 2D         |
+| F3       | 3D         |
+| F4       | 4D         |
+| F5       | 4D         |
+| F6       | 5D         |
+| F7       | 6D         |
+| F8       | 8D         |
+
+### Data Structure
+
+Each record contains:
+- Input vector (continuous values in range [0, 1])
+- Output scalar value (black-box function evaluation)
 
 ---
 
-## PREPROCESSING / CLEANING
+## 4. Data Collection Process
 
-Several preprocessing steps were applied:
-- Padding or truncation of vectors to match required dimensions
-- Normalisation of inputs to the range [0, 1]
-- Log transformation applied to outputs in some models for stability
+The dataset was generated through an iterative optimisation environment:
 
-No sensitive data processing was required.
+1. At each round, candidate solutions were submitted
+2. The environment evaluated each candidate using hidden functions
+3. Outputs were returned as scalar values
+4. Results were stored and reused in future optimisation steps
+
+This created a sequential decision-making dataset rather than a static dataset.
 
 ---
 
-## USES
+## 5. Preprocessing
 
-The dataset can be used for:
-- Black-box optimisation research
-- Machine learning model benchmarking
+Several preprocessing steps were applied during modelling:
+
+### 5.1 Dimensional Alignment
+Because each function had different input sizes:
+- Inputs were padded with zeros if too short
+- Inputs were truncated if too long
+
+### 5.2 Normalisation
+All inputs were constrained to:
+- Range: [0, 1]
+
+### 5.3 Log Transformation (used in some modules)
+To stabilise extreme output values:
+- Log(|y| + ε) was used for Gaussian Process training
+
+### 5.4 Outlier Handling
+No explicit removal of outliers was performed, but robust models (GP, clustering, PCA) were used to reduce their impact.
+
+---
+
+## 6. Uses of the Dataset
+
+This dataset can be used for:
+
+- Black-box optimisation benchmarking
 - Surrogate modelling experiments
-- Bayesian optimisation studies
-
-### Limitations for use:
-- Not suitable for real-world prediction tasks
-- Functions are synthetic and not interpretable
-- Results may not generalise outside this environment
+- Bayesian optimisation research
+- Reinforcement learning in continuous spaces
+- Exploration vs exploitation studies
 
 ---
 
-## DISTRIBUTION
+## 7. Limitations
 
-The dataset is included within the GitHub repository for educational use only. It is not licensed for commercial use or external redistribution.
+The dataset has several limitations:
+
+### 7.1 Synthetic Nature
+The functions are artificially generated and may not reflect real-world noise patterns.
+
+### 7.2 Limited Observations
+Only 12 rounds of observations are available, limiting long-term convergence analysis.
+
+### 7.3 Dimensional Constraints
+Each function has fixed dimensionality, limiting transfer learning across functions.
+
+### 7.4 Sequential Bias
+Later samples depend on earlier optimisation strategies, introducing sampling bias.
 
 ---
 
-## MAINTENANCE
+## 8. Ethical Considerations
 
-This dataset is static and will not be updated after the completion of the capstone project. It is maintained only for reproducibility and academic review.
+There are no direct ethical risks associated with this dataset as it does not contain:
+- Personal data
+- Sensitive information
+- Real-world individuals
+
+However, the optimisation techniques developed using this dataset may be applied in real-world domains such as pricing or resource allocation, where ethical considerations would become important.
+
+---
+
+## 9. Maintenance
+
+This dataset is maintained as part of an academic capstone project.
+
+It is not updated after completion of the course.
+
+---
+
+## 10. Summary
+
+The BBO dataset provides a structured environment for studying iterative optimisation strategies across multiple function types and dimensions. It is particularly useful for evaluating surrogate models, Bayesian optimisation techniques, and hybrid machine learning approaches in controlled settings.
