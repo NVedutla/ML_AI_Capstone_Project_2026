@@ -1,65 +1,143 @@
-# Model Card – BBO Capstone Hybrid Optimisation System
+# Model Card – Hybrid Black-Box Optimisation System
 
-## Model Description
+## 1. Model Overview
 
-**Input:**  
-Continuous numerical vectors representing candidate solutions. Dimensions vary from 2D to 8D depending on the function (F1–F8).
+This model is a hybrid black-box optimisation system developed as part of an ML/AI capstone project. It is designed to optimise unknown mathematical functions (F1–F8) using iterative learning from input-output observations.
 
-**Output:**  
-A scalar value representing the performance of the input vector on an unknown black-box function.
-
-**Model Architecture:**  
-The system is a hybrid optimisation framework combining:
-- Gaussian Process Regression (surrogate model)
-- Bayesian Optimisation (Expected Improvement)
-- PCA-based direction learning
-- Clustering-based region identification
-- Local search and noise-based exploration
-
-This is not a single predictive model but a multi-method optimisation pipeline.
+The system evolves over time from simple local search methods into a multi-strategy optimisation framework combining surrogate modelling, Bayesian optimisation, clustering, PCA, and reinforcement learning-inspired exploration.
 
 ---
 
-## Performance
+## 2. Model Inputs and Outputs
 
-Performance was evaluated over multiple sequential optimisation rounds rather than a fixed dataset.
+### Inputs
+- Continuous numeric vectors in range [0, 1]
+- Variable dimensionality depending on function:
+  - F1–F8: 2D to 8D input spaces
 
-Key indicators of success:
-- Improvement in function outputs over time
-- Stability of selected query points
-- Better performance consistency across different function dimensions
-
-The hybrid model outperformed early random and single-method approaches by converging faster and exploring more effectively.
-
----
-
-## LIMITATIONS
-
-- Gaussian Processes become slower with larger datasets
-- Performance depends heavily on sampling quality
-- PCA and clustering may be unstable in low-data scenarios
-- No guarantee of global optimum due to black-box nature of functions
-- Sensitive to hyperparameter choices
+### Outputs
+- Single continuous scalar value per input
+- Represents black-box function evaluation (unknown internal function)
 
 ---
 
-## TRADE-OFFS
+## 3. Model Architecture
 
-- Exploration vs exploitation: balancing new search vs refining known good regions
-- Accuracy vs computational cost: more complex models improved results but required more computation
-- Global vs local search: combining both improved robustness but increased system complexity
+The final model is a **hybrid optimisation pipeline** composed of:
+
+### 3.1 Gaussian Process Surrogate Model
+- Approximates unknown objective functions
+- Provides mean prediction and uncertainty estimation
+
+### 3.2 Bayesian Optimisation (Expected Improvement)
+- Selects candidates based on predicted improvement over best observed value
+- Balances exploration and exploitation
+
+### 3.3 Clustering-Based Search
+- Identifies high-performing regions in the search space
+- Uses centroid-based candidate generation
+
+### 3.4 PCA-Guided Directional Search
+- Extracts principal directions from top-performing samples
+- Guides search along dominant variance directions
+
+### 3.5 Attention-Inspired Feature Weighting
+- Assigns importance to input dimensions based on variance
+- Reduces noise from low-impact features
+
+### 3.6 Reinforcement Learning-Inspired Exploration
+- Adds stochastic exploration using epsilon noise
+- Supports adaptive exploration of unknown regions
 
 ---
 
-## ETHICAL CONSIDERATIONS
+## 4. Performance Summary
 
-This system is designed for optimisation research and educational purposes. It does not involve personal or sensitive data and is not intended for real-world decision-making without further validation.
+The model was evaluated over 12 iterative rounds across 8 benchmark functions (F1–F8).
+
+### Key Performance Improvements:
+- Stable convergence across all functions
+- Improved performance in higher-dimensional functions (F6–F8)
+- Reduced randomness in candidate selection over time
+- Better exploitation of high-performing regions
+
+### Observed Behaviour:
+- Early rounds: high exploration, unstable outputs
+- Mid rounds: improved stability with GP + EI
+- Final rounds: strong convergence using hybrid methods
 
 ---
 
-## INTENDED USE
+## 5. Training Strategy
 
-- Black-box optimisation problems
-- Machine learning research
-- Algorithm benchmarking
-- Educational use in optimisation and AI courses
+The model is not trained in a traditional supervised learning manner. Instead, it uses:
+
+- Sequential optimisation
+- Iterative feedback from function evaluations
+- Adaptive candidate generation
+
+Each iteration builds upon previous observations.
+
+---
+
+## 6. Limitations
+
+### 6.1 Black-Box Dependency
+The model cannot interpret or access internal function structure.
+
+### 6.2 Limited Evaluation Budget
+Only a small number of observations per function are available.
+
+### 6.3 Sensitivity to Noise
+Gaussian Process and PCA components may be sensitive to outliers.
+
+### 6.4 No Guaranteed Global Optimum
+The system may converge to local optima depending on exploration balance.
+
+---
+
+## 7. Trade-offs
+
+### Exploration vs Exploitation
+- Exploration ensures discovery of new regions
+- Exploitation improves known good regions
+- Balanced using EI + epsilon noise
+
+### Complexity vs Performance
+- More complex models improved accuracy
+- But increased computational cost
+
+### Interpretability vs Accuracy
+- PCA and clustering improved interpretability
+- Surrogate models improved performance but reduced transparency
+
+---
+
+## 8. Ethical Considerations
+
+While the model is applied to synthetic benchmark functions, similar optimisation techniques in real-world applications may impact:
+- Pricing systems
+- Resource allocation
+- Automated decision systems
+
+Care must be taken to ensure fairness, transparency, and robustness in real-world deployments.
+
+---
+
+## 9. Real-World Applications
+
+This optimisation framework can be applied to:
+
+- Hyperparameter tuning in machine learning models
+- Financial portfolio optimisation
+- Supply chain optimisation
+- Engineering design problems
+- Reinforcement learning policy search
+
+---
+
+## 10. Summary
+
+This project demonstrates how combining multiple optimisation strategies leads to stronger performance than relying on a single method. The final hybrid system integrates probabilistic modelling, directional search, clustering, and exploration strategies to effectively solve complex black-box optimisation problems.
+
+The key insight is that **robust optimisation requires adaptability, not just accuracy**.
